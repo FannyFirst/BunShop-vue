@@ -1,5 +1,3 @@
 module.export = {
-  build:{
-    publicPath:"/BunShop-vue"
-  }
+  publicPath:"/BunShop-vue"
 }
