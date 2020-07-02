@@ -99,13 +99,14 @@
     methods: {
       onLoad(index = -1) {
         bunsList().then(value => {
-          value.data = value.data.map(value => {
+          const data = value.data.map(value => {
             value['selectedNum'] = 0
             return value
-          })
-          if (index === -1) this.buns = value.data
-          else if (index === 0) this.buns = value.data.filter(value => value.pic_url === 0)
-          else this.buns = value.data.filter(value => value.pic_url === 1)
+          }).filter(value=>value.num>0)
+
+          if (index === -1) this.buns = data
+          else if (index === 0) this.buns = data.filter(value => value.pic_url === 0)
+          else this.buns = data.filter(value => value.pic_url === 1)
         })
       },
       onChange(index) {
@@ -133,7 +134,6 @@
                   } else {
                     Toast("购买失败")
                   }
-                  console.log(value)
                 })
                 this.onLoad(this.activeKey - 1)
               }
@@ -165,7 +165,6 @@
       setAsking(buyID) {
         this.asking = setInterval(() => {
           buyReady(buyID).then(value1 => {
-            console.log(value1);
             if (value1.code === 10000) {
               this.notifyUser()
               clearInterval(this.asking)

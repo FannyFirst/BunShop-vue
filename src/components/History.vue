@@ -30,7 +30,6 @@
     methods: {
       onLoad() {
         userOrder(this.$cookies.get('uid')).then(value => {
-          console.log(value);
           this.list = value.data
         })
       },

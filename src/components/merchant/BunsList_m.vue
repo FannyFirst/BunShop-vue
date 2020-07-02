@@ -38,12 +38,7 @@
     },
     data() {
       return {
-        list: [{
-          pic_url: 1,
-          name: "",
-          price: 1.0,
-          num: 1
-        }],
+        list: [],
         error: true,
         loading: false,
       }
@@ -61,7 +56,6 @@
           message: '将删除' + name,
         }).then(() => {
           delBuns(index).then(value => {
-            console.log(index,value)
             if (value) Toast("删除成功！")
             else Toast("删除失败！")
             this.onLoad()

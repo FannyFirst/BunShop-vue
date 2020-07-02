@@ -41,15 +41,8 @@
     },
     beforeCreate() {
       userLogin(this.$cookies.get("uid")).then(value => {
-        console.log(value)
         this.$cookies.set("uid", value.data)
       })
-      Notification.requestPermission(function (permission) {
-        console.log('用户是否允许通知： ',permission === 'granted' ? '允许' : '拒绝');
-      });
-      Notification.requestPermission().then(function (permission) {
-        console.log('用户是否允许通知： ',permission === 'granted' ? '允许' : '拒绝');
-      });
     }
   }
 </script>

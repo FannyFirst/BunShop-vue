@@ -42,7 +42,6 @@
       },
       refreshList() {
         buyingList().then(value => {
-          // console.log(value)
           this.list = value
         })
       },startInterval(){

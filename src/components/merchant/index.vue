@@ -63,9 +63,6 @@
       }
     },
     methods: {},
-    created() {
-      console.log(11111111111)
-    },
     components: {
       AddBuns,
       BunsList_m,
