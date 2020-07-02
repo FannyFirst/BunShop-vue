@@ -6,6 +6,9 @@ const baseUrl = "http://144.202.120.172:5000/"
 
 const service = axios.create({
   baseURL: baseUrl,
+  headers:{
+    "Content-Security-Policy": "upgrade-insecure-requests"
+  }
 })
 
 service.interceptors.request.use(config => {
