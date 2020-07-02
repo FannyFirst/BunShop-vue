@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = "http://144.202.120.172:5000/"
+const baseUrl = "https://141.164.50.141/"
 // const baseUrl = "http://192.168.0.104:5000/"
 
 
