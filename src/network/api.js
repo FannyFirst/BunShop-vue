@@ -8,15 +8,14 @@ const urls = {
     buy: "/buy/",
     buyingList: "/buy/buying"
   },
-  requestPromise = ({url, params = undefined, method = "GET", data = undefined}) => {
-    return new Promise((resolve, reject) => {
-      service({url, method, params, data}).then(value => {
-        resolve(value)
-      }).catch(reason => {
-        reject(reason)
-      })
+  requestPromise = async ({url, params = undefined, method = "GET", data = undefined}) =>
+    service({
+      url,
+      method,
+      params,
+      data
     })
-  }
+
 
 export default requestPromise
 

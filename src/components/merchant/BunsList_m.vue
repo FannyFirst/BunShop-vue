@@ -11,7 +11,7 @@
                         :price="item.price"
                         :title="item.name"
                         :desc="'有'+item.num+'个'+item.name+'等你来买哦'"
-                        :thumb="require(item.pic_url===0?'../../assets/v_buns.jpg':'../../assets/m_buns.jpg')"
+                        :thumb="require(item['pic_url']===0?'../../assets/v_buns.jpg':'../../assets/m_buns.jpg')"
                 />
                 <template #right>
                     <van-button square type="danger" text="删除" @click="delBun(item.name,index)" class="side_button"/>
@@ -45,20 +45,28 @@
     },
     methods: {
       onLoad() {
+        this.$self_toast.showLoading()
         bunsList().then(value => {
+          this.$self_toast.clearLoading()
           this.list = value.data
           this.loading = false
           this.error = true
+        }).catch(reason => {
+          this.$self_toast.showFail(reason)
         })
       }, delBun(name, index) {
         Dialog.confirm({
           title: '确认删除？',
           message: '将删除' + name,
         }).then(() => {
+          this.$self_toast.showLoading()
           delBuns(index).then(value => {
+            this.$self_toast.clearLoading()
             if (value) Toast("删除成功！")
             else Toast("删除失败！")
             this.onLoad()
+          }).catch(reason => {
+            this.$self_toast.showFail(reason)
           })
         }).catch(() => {
           //nothing to do
@@ -67,9 +75,7 @@
       }
     },
     created() {
-      bunsList().then(value => {
-        this.list = value.data
-      })
+      this.onLoad()
     }
   }
 </script>

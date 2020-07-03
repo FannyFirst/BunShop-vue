@@ -29,8 +29,12 @@
     },
     methods: {
       onLoad() {
+        this.$self_toast.loading()
         userOrder(this.$cookies.get('uid')).then(value => {
+          this.$self_toast.clearLoading()
           this.list = value.data
+        }).catch(reason => {
+          this.$self_toast.showFail(reason)
         })
       },
       dateFormat(timestamp) {

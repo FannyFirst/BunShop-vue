@@ -98,15 +98,19 @@
     },
     methods: {
       onLoad(index = -1) {
+        this.$self_toast.showLoading()
         bunsList().then(value => {
+          this.$self_toast.clearLoading()
           const data = value.data.map(value => {
             value['selectedNum'] = 0
             return value
-          }).filter(value=>value.num>0)
+          }).filter(value => value.num > 0)
 
           if (index === -1) this.buns = data
-          else if (index === 0) this.buns = data.filter(value => value.pic_url === 0)
-          else this.buns = data.filter(value => value.pic_url === 1)
+          else if (index === 0) this.buns = data.filter(value => value['pic_url'] === 0)
+          else this.buns = data.filter(value => value['pic_url'] === 1)
+        }).catch(reason => {
+          this.$self_toast.showFail(reason)
         })
       },
       onChange(index) {
@@ -118,30 +122,35 @@
             title: '示例支付',
             message: '未实际调用支付接口，仅仅作为示例，接下来你可以拿到你的取餐号了！',
           }).then(() => {
-              const cart = []
-              this.cart.forEach((value => {
-                cart.push({index: value.index, num: value.selectedNum})
-              }))
-              if (typeof this.asking === "undefined") {
-                buy(cart, this.$cookies.get('uid'), this.totalPrice).then(value => {
-                  if (value.code === 10000) {
-                    this.bunsNum = value.data + 1
-                    this.setAsking(value.data)
-                    this.showNumCard = true
-                    this.show = false
-                  } else if (value.code === 30000) {
-                    Toast("包子卖完了呢")
-                  } else {
-                    Toast("购买失败")
-                  }
-                })
-                this.onLoad(this.activeKey - 1)
-              }
-            });
+            const cart = []
+            this.cart.forEach((value => {
+              cart.push({index: value.index, num: value.selectedNum})
+            }))
+            if (!this.bunsNum) {
+              this.show = false
+              this.$self_toast.showLoading()
+              buy(cart, this.$cookies.get('uid'), this.totalPrice).then(value => {
+                this.$self_toast.clearLoading()
+                console.log(value)
+                if (value.code === 10000) {
+                  this.bunsNum = value.data + 1
+                  this.setAsking(value.data)
+                  this.showNumCard = true
+                } else if (value.code === 30000) {
+                  Toast("包子卖完了呢")
+                } else {
+                  Toast("购买失败")
+                }
+              }).catch(reason => {
+                this.$self_toast.showFail(reason)
+              })
+              this.onLoad(this.activeKey - 1)
+            }
+          });
 
       },
       cartHandler() {
-        if (typeof this.asking !== "undefined") {
+        if (this.bunsNum > 0) {
           Toast("你的这个订单没有完成！不可以购买")
           this.show = false
           this.showNumCard = true
@@ -163,17 +172,18 @@
         }
       },
       setAsking(buyID) {
+
         this.asking = setInterval(() => {
-          buyReady(buyID).then(value1 => {
-            if (value1.code === 10000) {
+          buyReady(buyID).then(value => {
+            if (value['code'] === 10000) {
               this.notifyUser()
               clearInterval(this.asking)
               this.needReload = true
-            } else if (value1.code !== 40001) {
+            } else if (value['code'] !== 40001) {
               console.error("业务逻辑有问题！！")
             }
           })
-        }, 3000)
+        }, 10000)
 
       },
       notifyUser() {
@@ -200,16 +210,20 @@
         this.onLoad()
       },
       checkBuying() {
+        this.$self_toast.showLoading()
         buyingCheck(this.$cookies.get('uid')).then(value => {
+          this.$self_toast.clearLoading()
           if (value.code === 10000) {
-            this.bunsNum = -1
+            this.bunsNum = 0
           } else if (value.code === 40002) {
             this.bunsNum = value.data + 1
             this.setAsking(value.data)
             this.showNumCard = true
           }
+        }).catch(reason => {
+          this.$self_toast.showFail(reason)
         })
-      }
+      },
     }
     ,
     created() {

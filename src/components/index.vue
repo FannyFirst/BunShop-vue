@@ -40,8 +40,12 @@
       History
     },
     beforeCreate() {
+      this.$self_toast.showLoading()
       userLogin(this.$cookies.get("uid")).then(value => {
+        this.$self_toast.clearLoading()
         this.$cookies.set("uid", value.data)
+      }).catch(reason => {
+        this.$self_toast.showFail(reason)
       })
     }
   }

@@ -47,7 +47,7 @@
       },startInterval(){
         this.rollRequest = setInterval(() => {
           this.refreshList()
-        }, 1000)
+        }, 6000)
       },stopInterval(){
         clearInterval(this.rollRequest)
       }

@@ -21,10 +21,6 @@
 
 <script>
   import {addBuns} from "../../network/api";
-
-  // import Notify from "vant/lib/notify";
-  // import Toast from "vant";
-
   import {Toast} from "vant";
 
   export default {
@@ -32,16 +28,22 @@
     props: ["finished"],
     watch: {
       finished(newValue) {
-        if (newValue === false && this.checkInput())//存在三种状态0,true和false
+        if (newValue === false && this.checkInput()){//存在三种状态0,true和false
+          this.$self_toast.showLoading()
           addBuns({
             name: this.name,
             price: this.price,
             type: this.checked ? 1 : null,
             num: this.num
           }).then(() => {
+            this.$self_toast.clearLoading()
             Toast('添加成功');
             Object.assign(this.$data, this.$options.data())
+          }).catch(reason => {
+            this.$self_toast.showFail(reason,"添加失败，网络超时")
           })
+        }
+
       }
     },
     data() {
