@@ -43,12 +43,20 @@
       }
     },
     created() {
+      this.$self_toast.showLoading()
       userList().then(value => {
+        this.$self_toast.clearLoading()
         this.users = value.data
+      }).catch(reason => {
+        this.$self_toast.showFail(reason)
       })
+      this.$self_toast.showLoading()
       orderList().then(value => {
+        this.$self_toast.clearLoading()
         this.list = value.data
         this.totalAmount = this.list.reduce((pre, cur) => pre + cur['money'], 0)
+      }).catch(reason => {
+        this.$self_toast.showFail(reason)
       })
     }
   }

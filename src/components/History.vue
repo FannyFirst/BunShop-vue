@@ -29,7 +29,7 @@
     },
     methods: {
       onLoad() {
-        this.$self_toast.loading()
+        this.$self_toast.showLoading()
         userOrder(this.$cookies.get('uid')).then(value => {
           this.$self_toast.clearLoading()
           this.list = value.data

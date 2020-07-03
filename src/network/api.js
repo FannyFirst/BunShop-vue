@@ -1,10 +1,10 @@
 import service from "./axios";
 
 const urls = {
-    userList: "/user",
+    userList: "/user/",
     userLogin: "/user/login",
     bunsList: "/buns/",
-    orderList: "/order",
+    orderList: "/order/",
     buy: "/buy/",
     buyingList: "/buy/buying"
   },

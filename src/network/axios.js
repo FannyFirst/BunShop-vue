@@ -7,7 +7,7 @@ const baseUrl = "https://141.164.50.141/"
 const service = axios.create({
   baseURL: baseUrl,
   headers: {
-    "Content-Security-Policy": "upgrade-insecure-requests"
+    "Content-Security-Policy": "upgrade-insecure-requests",
   }, timeout: 5000
 })
 
