@@ -6,9 +6,9 @@
 
 ### 本项目使用vue3与Vant UI 编写（项目预览见[BunShop-vue](https://fannyfirst.github.io/BunShop-vue/#/)）
 
-更多详细信息再提交的作用ppt内
+更多详细信息在提交的作业ppt内
 
-### 你可以使用下面的引导过程再本地创建项目
+### 你可以使用下面的引导过程在本地创建并启动项目
 
 ## Project setup
 ```
